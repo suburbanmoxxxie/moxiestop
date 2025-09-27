@@ -6,9 +6,20 @@
   <link rel="canonical" href="https://suburbanmoxxxie.com">
   <meta http-equiv="refresh" content="0; url=https://suburbanmoxxxie.com">
   <script>
-    // Preserve path, query, and hash during redirect
-    const dest = 'https://suburbanmoxxxie.com' + location.pathname + location.search + location.hash;
-    location.replace(dest);
+    (function () {
+      const destBase = 'https://suburbanmoxxxie.com';
+      const srcUrl = new URL(window.location.href);
+
+      // Preserve any existing query params, add a source marker only if missing
+      const params = new URLSearchParams(srcUrl.search);
+      if (!params.has('src')) params.set('src', 'tt'); // tt = TikTok via moxiestop
+
+      const path = srcUrl.pathname === '/' ? '' : srcUrl.pathname;
+      const query = params.toString() ? '?' + params.toString() : '';
+      const dest = destBase + path + query + srcUrl.hash;
+
+      window.location.replace(dest);
+    })();
   </script>
 </head>
 <body>
